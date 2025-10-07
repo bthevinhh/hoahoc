@@ -262,41 +262,50 @@ const questions = [
   q.a.forEach((ans, i) => {
     const btn = document.createElement('button');
     btn.innerText = ans;
-    btn.onclick = () => {
-      const emojiDiv = document.getElementById('emoji');
-      const emojiImg = document.getElementById('emojiImg');
+   btn.onclick = () => {
+  const emojiDiv = document.getElementById('emoji');
+  const emojiImg = document.getElementById('emojiImg');
 
-      // Thay đổi màu panel khi trả lời
-      if (i === q.correct) {
-        panel.style.backgroundColor = '#4CAF50'; // xanh
-        panel.style.color = 'white';
-      } else {
-        panel.style.backgroundColor = '#F44336'; // đỏ
-        panel.style.color = 'white';
-      }
+  if (i === q.correct) {
+    // Trả lời đúng
+    panel.style.backgroundColor = '#4CAF50'; // xanh
+    panel.style.color = 'white';
 
-      // Chọn ảnh emoji ngẫu nhiên
-      if (i === q.correct) {
-        const idx = Math.floor(Math.random() * correctEmojis.length);
-        emojiImg.src = correctEmojis[idx];
-      } else {
-        const idx = Math.floor(Math.random() * wrongEmojis.length);
-        emojiImg.src = wrongEmojis[idx];
-      }
+    const idx = Math.floor(Math.random() * correctEmojis.length);
+    emojiImg.src = correctEmojis[idx];
 
-      // Hiển thị emoji với animation
-      emojiDiv.style.transform = 'translate(-50%, -50%) scale(1)';
-      emojiDiv.style.opacity = '1';
-      setTimeout(() => {
-        emojiDiv.style.transform = 'translate(-50%, -50%) scale(0)';
-        emojiDiv.style.opacity = '0';
-        panel.style.display = 'none';
-      }, 1000);
-    };
-    answersDiv.appendChild(btn);
-  });
-}
+    // Hiển thị emoji
+    emojiDiv.style.transform = 'translate(-50%, -50%) scale(1)';
+    emojiDiv.style.opacity = '1';
 
+    // Sau 1 giây ẩn panel, KHÔNG chuyển câu
+    setTimeout(() => {
+      emojiDiv.style.transform = 'translate(-50%, -50%) scale(0)';
+      emojiDiv.style.opacity = '0';
+      panel.style.display = 'none';
+    }, 1000);
+
+  } else {
+    // Trả lời sai
+    panel.style.backgroundColor = '#F44336'; // đỏ
+    panel.style.color = 'white';
+
+    const idx = Math.floor(Math.random() * wrongEmojis.length);
+    emojiImg.src = wrongEmojis[idx];
+
+    // Hiển thị emoji
+    emojiDiv.style.transform = 'translate(-50%, -50%) scale(1)';
+    emojiDiv.style.opacity = '1';
+
+    // Ẩn emoji sau 1 giây, panel vẫn hiện để thử lại
+    setTimeout(() => {
+      emojiDiv.style.transform = 'translate(-50%, -50%) scale(0)';
+      emojiDiv.style.opacity = '0';
+      panel.style.backgroundColor = ''; // reset màu
+      panel.style.color = '';
+    }, 1000);
+  }
+};
 
 
    document.getElementById('restart').onclick = () => location.reload(); 
@@ -306,6 +315,7 @@ const questions = [
  
 
   
+
 
 
 
